@@ -65,9 +65,11 @@ class chessGraph {
         if (this.found === true) return console.log('found');
 
         const nextLevelOrder = () => {
+            //  copy the current visited squares array and reset for the next level order
             const nextSquares = [...this.currentLevel];
             this.currentLevel.length = 0;
 
+            //  seek other unvisited squares from the current level order
             let i = 0;
             while(i < nextSquares.length) {
                 if (this.found === true) return console.log('found');
@@ -80,7 +82,8 @@ class chessGraph {
                 i++;
             }
 
-            if (this.found === false) return nextLevelOrder();
+            //  if the current level order don't have the target square, run the next level order.
+            nextLevelOrder();
         }
    
         return nextLevelOrder();
@@ -104,6 +107,6 @@ class chessGraph {
 
 const board = new chessGraph();
 
-board.targetSquare = '77';
+board.targetSquare = '75';
 board.travelKnight(3, 3);
 board.printGraph();
