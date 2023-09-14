@@ -106,8 +106,21 @@ class chessGraph {
     }
 
     getCoordinates() {
-        const coordinates = this.traversePath(this.targetSquare);
+        const coordinates = this.traversePath(this.targetSquare)
+                            .split('-')
+                            .reverse();
+
         console.log(coordinates);
+        //   animate knight traversal
+
+        this.resetGraph();
+    }
+
+    resetGraph() {
+        this.visitedSquares.clear();
+        this.currentLevel = [];
+        this.targetSquare = '';
+        this.found = false;
     }
 
     printGraph() {
@@ -129,5 +142,8 @@ class chessGraph {
 const board = new chessGraph();
 
 board.targetSquare = '00';
-board.travelKnight(3, 3);
+board.travelKnight(7, 7);
+board.targetSquare = '77';
+board.travelKnight(2, 3);
+
 // board.printGraph();
