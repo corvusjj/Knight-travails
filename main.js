@@ -2,8 +2,10 @@ class chessGraph {
     constructor() {
         this.visitedSquares = new Map();
         this.currentLevel = [];
-        this.found = false;
+
+        this.startingSquare = '';
         this.targetSquare = '';
+        this.found = false;
     }
 
     //  vertex
@@ -39,9 +41,9 @@ class chessGraph {
         x = `${x}`;
         y = `${y}`;
 
-        if (this.targetSquare === x+y) return this.found = true;
+        if (this.targetSquare === x+y) this.found = true;
 
-        // prevent repeating squares to visitedSquares array.
+        // prevent repeating squares to visitedSquares object.
         let alreadyVisited = false;
         const getSquares = this.visitedSquares.keys();
 
@@ -56,14 +58,17 @@ class chessGraph {
 
         this.addSquare(x+y);
         this.addEdge(x+y, parent);
-        this.currentLevel.push(x+y);
+        this.currentLevel.push(x+y);  //  the first seeked squares will be the next level order.
     }
 
     travelKnight(x,y) {
+        //  1st level order knight moves
+        this.startingSquare = `${x}${y}`;
         this.addSquare(`${x}${y}`);
-        this.knightMoves(x,y, this.discoverSquares);  //  1st level order knight moves
-        if (this.found === true) return console.log('found');
+        this.knightMoves(x,y, this.discoverSquares);  
+        if (this.found === true) return this.getCoordinates();
 
+        //  run knightMoves to next level order until targetSquare is found.
         const nextLevelOrder = () => {
             //  copy the current visited squares array and reset for the next level order
             const nextSquares = [...this.currentLevel];
@@ -72,21 +77,37 @@ class chessGraph {
             //  seek other unvisited squares from the current level order
             let i = 0;
             while(i < nextSquares.length) {
-                if (this.found === true) return console.log('found');
+                if (this.found === true) return this.getCoordinates();
 
                 const x = parseInt(nextSquares[i][0]);
                 const y = parseInt(nextSquares[i][1]);
 
-                console.log(x,y);
                 this.knightMoves(x,y, this.discoverSquares);
                 i++;
             }
 
-            //  if the current level order don't have the target square, run the next level order.
+            //  the current level order don't have the target square, run the next level order.
             nextLevelOrder();
         }
    
         return nextLevelOrder();
+    }
+
+    //  if variable 'found' is true, this will traverse the chessGraph from
+    //  the targeted square to the starting square node.
+    traversePath(vertex) {
+        if (vertex === this.startingSquare) return vertex;
+        let path = vertex + '-';
+
+        const parent = this.visitedSquares.get(vertex)[0];  
+        path += this.traversePath(parent);
+
+        return path;
+    }
+
+    getCoordinates() {
+        const coordinates = this.traversePath(this.targetSquare);
+        console.log(coordinates);
     }
 
     printGraph() {
@@ -107,6 +128,6 @@ class chessGraph {
 
 const board = new chessGraph();
 
-board.targetSquare = '75';
+board.targetSquare = '00';
 board.travelKnight(3, 3);
-board.printGraph();
+// board.printGraph();
