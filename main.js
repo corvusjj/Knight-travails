@@ -119,6 +119,7 @@ class chessGraph {
     resetGraph() {
         this.visitedSquares.clear();
         this.currentLevel = [];
+        this.startingSquare = this.targetSquare;
         this.targetSquare = '';
         this.found = false;
     }
@@ -141,11 +142,12 @@ class chessGraph {
 
 const board = new chessGraph();
 
-board.targetSquare = '00';
-board.travelKnight(7, 7);
-
 // board.printGraph();
 
+
+const chessboard = document.querySelector('#chessboard');
+const knight = document.querySelector('#knight');
+let squareLength;
 
 function displayBoard() {
     let i = 1;
@@ -154,7 +156,10 @@ function displayBoard() {
 
     while (i <= 64) {
         const square = document.createElement('div');
-        square.setAttribute('data-coordinate', `${x}${y}`);
+        square.setAttribute('data-coordinates', `${x}${y}`);
+        square.addEventListener('mouseenter', hover);
+        square.addEventListener("mouseleave", hoverLeave);
+        square.addEventListener('click', startTraversal);
         x++;
         chessboard.appendChild(square);
 
@@ -179,4 +184,40 @@ function displayBoard() {
     }
 };
 
-displayBoard();
+function moveKnightUI(sq) {
+    const x = parseInt(sq[0]);
+    const y = parseInt(sq[1]);
+    knight.style.bottom = squareLength * x + 'px';
+    knight.style.left = squareLength * y + 'px';
+} 
+
+(function init() {
+    displayBoard();
+    chessboard.appendChild(knight);
+
+    squareLength = chessboard.firstElementChild.getBoundingClientRect().width;
+
+    knight.style.width = squareLength + 'px';
+    knight.style.height = squareLength + 'px';
+
+    board.startingSquare = '33';
+    moveKnightUI('33');
+})();
+
+function hover(e) {
+    e.target.classList.add('square-hover');
+}
+
+function hoverLeave(e) {
+    e.target.classList.remove('square-hover');
+}
+
+function startTraversal(e) {
+    const start = board.startingSquare;
+
+    const x = parseInt(start[0]);
+    const y = parseInt(start[1]);
+    board.targetSquare = e.target.dataset.coordinates;
+
+    board.travelKnight(x, y);
+}
