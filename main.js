@@ -143,7 +143,40 @@ const board = new chessGraph();
 
 board.targetSquare = '00';
 board.travelKnight(7, 7);
-board.targetSquare = '77';
-board.travelKnight(2, 3);
 
 // board.printGraph();
+
+
+function displayBoard() {
+    let i = 1;
+    let background = 'light';
+    let x = 0, y = 7;
+
+    while (i <= 64) {
+        const square = document.createElement('div');
+        square.setAttribute('data-coordinate', `${x}${y}`);
+        x++;
+        chessboard.appendChild(square);
+
+        if (background === 'light') {
+            square.style.background = '#f0d9b5';
+            background = 'dark';
+        } else {
+            square.style.background = '#b58863';
+            background = 'light';
+        }
+
+        
+        if (i % 8 === 0) {
+            background === 'light'?
+            background = 'dark':
+            background = 'light';
+
+            x = 0;
+            y--;
+        }
+        i++;
+    }
+};
+
+displayBoard();
