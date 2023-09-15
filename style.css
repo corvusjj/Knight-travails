@@ -20,3 +20,14 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.dark {
+    background: #b58863;
+}
+
+.light {
+    background: #f0d9b5;
+}
+
+#knight {
+    position: absolute;
+}

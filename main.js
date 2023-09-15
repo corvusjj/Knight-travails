@@ -159,10 +159,10 @@ function displayBoard() {
         chessboard.appendChild(square);
 
         if (background === 'light') {
-            square.style.background = '#f0d9b5';
+            square.classList.add('light');
             background = 'dark';
         } else {
-            square.style.background = '#b58863';
+            square.classList.add('dark');
             background = 'light';
         }
 
