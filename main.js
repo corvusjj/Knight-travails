@@ -109,11 +109,8 @@ class chessGraph {
         const coordinates = this.traversePath(this.targetSquare)
                             .split('-')
                             .reverse();
-
-        console.log(coordinates);
-        //   animate knight traversal
-
         this.resetGraph();
+        animateKnightUI(coordinates);
     }
 
     resetGraph() {
@@ -141,9 +138,6 @@ class chessGraph {
 }
 
 const board = new chessGraph();
-
-// board.printGraph();
-
 
 const chessboard = document.querySelector('#chessboard');
 const knight = document.querySelector('#knight');
@@ -184,13 +178,6 @@ function displayBoard() {
     }
 };
 
-function moveKnightUI(sq) {
-    const x = parseInt(sq[0]);
-    const y = parseInt(sq[1]);
-    knight.style.bottom = squareLength * x + 'px';
-    knight.style.left = squareLength * y + 'px';
-} 
-
 (function init() {
     displayBoard();
     chessboard.appendChild(knight);
@@ -213,11 +200,54 @@ function hoverLeave(e) {
 }
 
 function startTraversal(e) {
+    chessboard.style.pointerEvents = 'none';
     const start = board.startingSquare;
 
     const x = parseInt(start[0]);
     const y = parseInt(start[1]);
     board.targetSquare = e.target.dataset.coordinates;
 
-    board.travelKnight(x, y);
+    board.travelKnight(x,y);
+}
+
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function animateKnightUI(path) {
+    console.log(path);
+
+    //  animate path
+    let s = 1;
+    while(s < path.length) {
+        await flipTileUI(path[s]);
+        s++
+    }
+
+    //  knight traversal
+    let i = 1;
+    while(i < path.length) {
+        await moveKnightUI(path[i]);
+        i++
+    }
+
+    document.querySelectorAll('main > div').forEach(square => {
+        square.classList.remove('path');
+    });
+
+    chessboard.style.pointerEvents = 'visible';
+}
+
+async function moveKnightUI(sq) {
+    const x = parseInt(sq[0]);
+    const y = parseInt(sq[1]);
+    knight.style.bottom = squareLength * y + 'px';
+    knight.style.left = squareLength * x + 'px';
+    await timeout(700);
+}
+
+async function flipTileUI(sq) {
+    const square = document.querySelector(`[data-coordinates="${sq}"]`);
+    square.classList.add('path');
+    await timeout(200);
 }

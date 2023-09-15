@@ -23,16 +23,16 @@ body {
 
 .dark {
     background: #b58863;
-    transition: transform 0.8s ease;
 }
 
 .light {
     background: #f0d9b5;
-    transition: transform 0.8s ease;
+    
 }
 
 #knight {
     position: absolute;
+    transition: left 1s, bottom 1s;
 }
 
 .square-hover {
@@ -40,5 +40,6 @@ body {
 }
 
 .path {
-    transform: rotateX(180deg) rotateZ(90deg);
+    transition: transform 1.2s ease;
+    transform: rotateX(360deg) rotateZ(90deg);
 }
