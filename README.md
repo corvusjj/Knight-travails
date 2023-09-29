@@ -8,3 +8,5 @@ Build a program that shows the shortest possible way for a knight to move from
 one square to another.
 
 _Concepts in the project include recursion, async/await, and undirected graph._
+
+![Knight travails gif](./knight-travails.gif)
