@@ -1,5 +1,5 @@
 # Knight-travails
-## [_Live Demo_](https://john0ground.github.io/knight-travails/)
+## [_Live Demo_](https://john0ground.github.io/Knight-travails/)
 
 Based from [The Odin Project's](https://www.theodinproject.com/paths/full-stack-javascript) Javascript curriculum (A Bit of Computer Science section).
 
