@@ -1,5 +1,5 @@
 # Knight-travails
-## [_Live Demo_](https://john0ground.github.io/Knight-travails/)
+## [_Live Demo_](https://corvusjj.github.io/Knight-travails/)
 
 Based from [The Odin Project's](https://www.theodinproject.com/lessons/javascript-knights-travails) Javascript curriculum.
 
